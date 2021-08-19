@@ -3,6 +3,7 @@ using System.Linq;
 using AgenciaApostas.Data;
 using Microsoft.EntityFrameworkCore;
 using AgenciaApostas.Models;
+using AgenciaApostas.ViewModels.ListViewModels;
 
 namespace AgenciaApostas.Repositories
 {
@@ -15,33 +16,31 @@ namespace AgenciaApostas.Repositories
             _context = context;
         }
 
-        public IEnumerable<Partida> Partidas Get()
+        public IEnumerable<VMListPartidas> Get()
         {
-            return _context
-                .Partida
-                .Include(x => x.time1)
-                .Include(x => x.time2)
-                .Select(x => new Time
-                {
-                    id = x.id,
-                    nome = x.,
-                })
-                .AsNoTracking()
-                .Where(x => x.ativo)
-                .ToList();
+            var todasPartidas = _context.Partidas.Where(x => x.ativo).ToList();
+
+            var model = new List<VMListPartidas>();
+
+            foreach (var cadaPartida in todasPartidas)
+            {
+                model.Add(new VMListPartidas(cadaPartida));
+            }
+
+            return model;
         }
         public Partida Get(int id)
         {
-            return _context.Partida.Find(id);
+            return _context.Partidas.Find(id);
         }
-        public void Save(Partida partida)
+        public void Save(Partida time)
         {
-            _context.Partida.Add(partida);
+            _context.Partidas.Add(time);
             _context.SaveChanges();
         }
-        public void Update(Partida partida)
+        public void Update(Time time)
         {
-            _context.Entry<Partida>(partida).State = EntityState.Modified;
+            _context.Entry<Time>(time).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }
