@@ -11,11 +11,11 @@ namespace AgenciaApostas.Data.Maps
         {
             builder.ToTable("Partida");
             builder.HasKey(x => x.id);
-            builder.Property(x => x.time1).IsRequired();
-            builder.Property(x => x.time2).IsRequired();
-            builder.Property(x => x.pontosTime1).IsRequired();
-            builder.Property(x => x.pontosTime2).IsRequired();
-            builder.Property(x => x.ativo).IsRequired();
+            builder.Property(x => x.Time1).IsRequired();
+            builder.Property(x => x.Time2).IsRequired();
+            builder.Property(x => x.PontosTime1).IsRequired();
+            builder.Property(x => x.PontosTime2).IsRequired();
+            builder.Property(x => x.Ativo).IsRequired();
         }
     }
 }

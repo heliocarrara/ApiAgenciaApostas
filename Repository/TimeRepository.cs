@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using AgenciaApostas.Models;
 using AgenciaApostas.ViewModels.ListViewModels;
 
-namespace AgenciaApostas.Repositories
+namespace AgenciaApostas.Repository
 {
     public class TimeRepository
     {
@@ -29,7 +29,7 @@ namespace AgenciaApostas.Repositories
 
             return model;
         }
-        public Time Get(int id)
+        public Time Get(long id)
         {
             return _context.Times.Find(id);
         }

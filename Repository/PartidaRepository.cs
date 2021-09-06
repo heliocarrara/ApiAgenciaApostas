@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using AgenciaApostas.Models;
 using AgenciaApostas.ViewModels.ListViewModels;
 
-namespace AgenciaApostas.Repositories
+namespace AgenciaApostas.Repository
 {
     public class PartidaRepository
     {
@@ -16,31 +16,31 @@ namespace AgenciaApostas.Repositories
             _context = context;
         }
 
-        public IEnumerable<VMListPartidas> Get()
+        public IEnumerable<VMListPartida> Get()
         {
-            var todasPartidas = _context.Partidas.Where(x => x.ativo).ToList();
+            var todasPartidas = _context.Partidas.Where(x => x.Ativo).ToList();
 
-            var model = new List<VMListPartidas>();
+            var model = new List<VMListPartida>();
 
             foreach (var cadaPartida in todasPartidas)
             {
-                model.Add(new VMListPartidas(cadaPartida));
+                model.Add(new VMListPartida(cadaPartida));
             }
 
             return model;
         }
-        public Partida Get(int id)
+        public Partida Get(long id)
         {
             return _context.Partidas.Find(id);
         }
-        public void Save(Partida time)
+        public void Save(Partida partida)
         {
-            _context.Partidas.Add(time);
+            _context.Partidas.Add(partida);
             _context.SaveChanges();
         }
-        public void Update(Time time)
+        public void Update(Partida partida)
         {
-            _context.Entry<Time>(time).State = EntityState.Modified;
+            _context.Entry<Partida>(partida).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }

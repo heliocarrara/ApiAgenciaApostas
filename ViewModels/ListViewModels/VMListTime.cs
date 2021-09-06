@@ -10,7 +10,7 @@ namespace AgenciaApostas.ViewModels.ListViewModels
     {
         #region PROPERTIES
         public long id { get; set; }
-        public string nome { get; set; }
+        public string Nome { get; set; }
         #endregion
 
         #region 
@@ -21,7 +21,7 @@ namespace AgenciaApostas.ViewModels.ListViewModels
 
         public VMListTime(Time time)
         {
-            this.nome = time.nome;
+            this.Nome = time.nome;
             this.id = time.id;
         }
         #endregion

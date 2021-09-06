@@ -1,4 +1,4 @@
-﻿using AgenciaApostas.Repositories;
+﻿using AgenciaApostas.Repository;
 using AgenciaApostas.ViewModels.ListViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,7 +10,7 @@ using AgenciaApostas.ViewModels;
 
 namespace AgenciaApostas.Controllers
 {
-    public class PartidaController
+    public class PartidaController: Controller
     {
         private readonly PartidaRepository _repository;
 
@@ -21,7 +21,7 @@ namespace AgenciaApostas.Controllers
 
         [Route("v1/partidas")]
         [HttpGet]
-        public IEnumerable<VMListPartidas> Get()
+        public IEnumerable<VMListPartida> Get()
         {
             return _repository.Get();
         }
@@ -35,37 +35,30 @@ namespace AgenciaApostas.Controllers
 
         [Route("v1/partidas")]
         [HttpPost]
-        public VMResult Post([FromBody] VMListPartidas model)
+        public VMResult Post([FromBody] VMListPartida model)
         {
-            model.Validate();
-            if (model.Invalid)
-                return new VMResult
-                {
-                    Success = false,
-                    Message = "Não foi possível cadastrar o produto",
-                    Data = model.Notifications
-                };
+            var partida = new Partida()
+            {
+                Ativo = true,
+                campeonato_id = model.id,
+                time1_id = model.time1_id,
+                time2_id = model.time2_id,
+                PontosTime1 = model.PontosTime1,
+                PontosTime2 = model.PontosTime2,
 
-            var partida = new Partida();
-            partida.id = model.id;
-            partida.ativo = true;
-            partida.campeonato_id = model.campeonato_id; // Nunca recebe esta informação
-            partida.time1_id = model.Partida.time1_id;
-            partida.time2_id = model.Partida.time2_id;
-            partida.pontosTime1 = model.Partida.pontosTime1;
-            partida.pontosTime2 = model.Partida.pontosTime2;
+            };
 
             _repository.Save(partida);
 
             return new VMResult
             {
                 Success = true,
-                Message = "Produto cadastrado com sucesso!",
+                Message = "Partida cadastrada com sucesso!",
                 Data = partida
             };
         }
 
-        [Route("v2/partidas")]
+        [Route("v1/partidas")]
         [HttpPost]
         public VMResult Post([FromBody] Partida partida)
         {
@@ -83,28 +76,38 @@ namespace AgenciaApostas.Controllers
         [HttpPut]
         public VMResult Put([FromBody] VMPartida model)
         {
-            model.Validate();
-            if (model.Invalid)
-                return new VMResult
-                {
-                    Success = false,
-                    Message = "Não foi possível alterar o produto",
-                    Data = model.Notifications
-                };
+            var partida = _repository.Get(model.id);
 
-            var partida = _repository.Get(model.Id);
-            partida.ativo = model.Title;
-            partida.CategoryId = model.CategoryId;
-            // product.CreateDate = DateTime.Now; // Nunca altera a data de criação
+            partida.Ativo = model.Ativo;
+            partida.campeonato_id = model.campeonato_id;
+            partida.PontosTime1 = model.PontosTime1;
+            partida.PontosTime2 = model.PontosTime2;
+            partida.time1_id = model.time1_id;
+            partida.time2_id = model.time2_id;
 
             _repository.Update(partida);
 
             return new VMResult
             {
                 Success = true,
-                Message = "Partida alterado com sucesso!",
+                Message = "Partida alterada com sucesso!",
                 Data = partida
             };
         }
+
+        [Route("v1/partidas/{id}")]
+        [HttpDelete]
+        public Partida Delete(long id)
+        {
+            var partida = _repository.Get(id);
+
+            partida.Ativo = false;
+
+            _repository.Update(partida);
+
+            return partida;
+        }
+
+        
     }
 }

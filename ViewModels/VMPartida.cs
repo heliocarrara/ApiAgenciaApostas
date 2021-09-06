@@ -9,22 +9,22 @@ namespace AgenciaApostas.ViewModels
     public class VMPartida
     {
         public long id { get; set; }
-        public bool ativo { get; set; }
-        public string time1 { get; set; }
-        public string time2 { get; set; }
-        public int pontosTime1 { get; set; }
-        public int pontosTime2 { get; set; }
+        public bool Ativo { get; set; }
+        public long time1_id { get; set; }
+        public long time2_id { get; set; }
+        public int PontosTime1 { get; set; }
+        public int PontosTime2 { get; set; }
         public long campeonato_id { get; set; }
 
         public VMPartida(Partida partida)
         {
             this.id = partida.id;
-            this.time1 = partida.time1.nome;
-            this.time2 = partida.time2.nome;
-            this.pontosTime1 = partida.pontosTime1;
-            this.pontosTime2 = partida.pontosTime2;
+            this.time1_id = partida.time1_id;
+            this.time2_id = partida.time2_id;
+            this.PontosTime1 = partida.PontosTime1;
+            this.PontosTime2 = partida.PontosTime2;
             this.campeonato_id = partida.campeonato_id;
-            this.ativo = partida.ativo;
+            this.Ativo = partida.Ativo;
         }
     }
 }
